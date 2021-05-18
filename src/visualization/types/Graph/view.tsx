@@ -6,6 +6,7 @@ import {
   Config,
   DomainLabel,
   Plot,
+  StaticLegend as StaticLegendConfig,
   getDomainDataFromLines,
   lineTransform,
 } from '@influxdata/giraffe'
@@ -25,7 +26,10 @@ import {
 // Constants
 import {VIS_THEME, VIS_THEME_LIGHT} from 'src/shared/constants'
 import {DEFAULT_LINE_COLORS} from 'src/shared/constants/graphColorPalettes'
-import {INVALID_DATA_COPY} from 'src/visualization/constants'
+import {
+  INVALID_DATA_COPY,
+  STATIC_LEGEND_STYLING,
+} from 'src/visualization/constants'
 
 // Types
 import {XYViewProperties} from 'src/types'
@@ -77,6 +81,7 @@ const XYPlot: FC<Props> = ({
   const tooltipOrientationThreshold = useLegendOrientationThreshold(
     properties.legendOrientationThreshold
   )
+  const {staticLegend} = properties
   const dispatch = useDispatch()
 
   // these two values are set in the dashboard, and used whether or not this view
@@ -195,6 +200,10 @@ const XYPlot: FC<Props> = ({
       [xColumn]: xFormatter,
       [yColumn]: yFormatter,
     },
+    staticLegend: {
+      ...staticLegend,
+      ...STATIC_LEGEND_STYLING,
+    } as StaticLegendConfig,
     layers: [
       {
         type: 'line',
