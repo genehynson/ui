@@ -2,12 +2,10 @@
 import React, {
   useContext,
   FC,
-  memo,
   useState,
   useEffect,
   useCallback,
 } from 'react'
-import {withRouter, RouteComponentProps} from 'react-router-dom'
 
 // Components
 import {Overlay} from '@influxdata/clockface'
@@ -23,10 +21,9 @@ import WriteDataDetailsProvider from 'src/writeData/components/WriteDataDetailsC
 import {Provider as TemplateProvider} from 'src/shared/components/CodeSnippet'
 import {FlowQueryContext, Stage} from 'src/flows/context/flow.query'
 
-interface OwnProps {
+interface Props {
   panelId: string
 }
-type Props = OwnProps & RouteComponentProps<{orgID: string}>
 
 const TOKEN_PLACEHOLDER = '<INFLUXDB_TOKEN>'
 
@@ -81,4 +78,4 @@ const PanelQueryOverlay: FC<Props> = ({panelId}) => {
   )
 }
 
-export default withRouter(memo(PanelQueryOverlay))
+export default PanelQueryOverlay
