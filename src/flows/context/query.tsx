@@ -86,20 +86,14 @@ const _walk = (node, test, acc = []) => {
 }
 
 export const updateBucketInAST = (ast: File, name: string) => {
-  return _walk(
+  _walk(
     ast,
     node =>
       node?.type === 'CallExpression' &&
       node?.callee?.type === 'Identifier' &&
       node?.callee?.name === 'from' &&
       node?.arguments[0]?.properties[0]?.key?.name === 'bucket'
-  ).map(node =>
-    lodashSet(
-      node,
-      'arguments.0.properties.0.value.location.source',
-      `"${name}"`
-    )
-  )
+  ).map(node => node.arguments[0].properties[0].value.location.source = `"${name}"`)
 }
 
 export const getBucketsFromAST = (ast: File) => {
@@ -110,7 +104,7 @@ export const getBucketsFromAST = (ast: File) => {
       node?.callee?.type === 'Identifier' &&
       node?.callee?.name === 'from' &&
       node?.arguments[0]?.properties[0]?.key?.name === 'bucket'
-  ).map(node => lodashGet(node, 'arguments.0.properties.0.value.value', ''))
+  ).map(node => node?.arguments[0]?.properties[0]?.value.value)
 }
 
 const _getVars = (

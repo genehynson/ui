@@ -34,8 +34,6 @@ const PanelQueryOverlay: FC<Props> = ({panelId}) => {
   const {generateMap} = useContext(FlowQueryContext)
   const {visible, setVisibility} = useContext(CopyToClipboardContext)
 
-  const [query, setQuery] = useState(null)
-
   const getPanelQuery = useCallback(
     (panelId: string): string => {
       const stage = generateMap().find((stage: Stage) => {
@@ -47,13 +45,6 @@ const PanelQueryOverlay: FC<Props> = ({panelId}) => {
     [generateMap]
   )
 
-  useEffect(() => {
-    const currentQuery = getPanelQuery(panelId)
-    if (currentQuery !== query) {
-      setQuery(currentQuery)
-    }
-  }, [query, setQuery, panelId, getPanelQuery])
-
   return (
     <Overlay visible={visible}>
       <Overlay.Container>
@@ -64,7 +55,7 @@ const PanelQueryOverlay: FC<Props> = ({panelId}) => {
         <Overlay.Body>
           <TemplateProvider variables={{token: TOKEN_PLACEHOLDER}}>
             <WriteDataDetailsProvider>
-              <ExecuteCodeBlockProvider contentID={contentID} query={query}>
+              <ExecuteCodeBlockProvider contentID={contentID} query={getPanelQuery(panelId)}>
                 <ClientCodeCopyPage
                   contentID={contentID}
                   query={getPanelQuery(panelId)}
