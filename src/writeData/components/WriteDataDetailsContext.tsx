@@ -43,12 +43,6 @@ const WriteDataDetailsProvider: FC = ({children}) => {
   const [token, setToken] = useState(tokens[0])
 
   useEffect(() => {
-    if (tokens.length > 0 && !token) {
-      setToken(tokens[0])
-    }
-  }, [tokens, token, setToken])
-
-  useEffect(() => {
     if (server === variables.server) {
       return
     }
